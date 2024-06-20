@@ -1,4 +1,6 @@
-﻿namespace RTCodingExercise.Monolithic.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RTCodingExercise.Monolithic.Models
 {
     public class Plate
     {
@@ -6,8 +8,10 @@
 
         public string? Registration { get; set; }
 
+        [Display(Name = "Purchase Price")]
         public decimal PurchasePrice { get; set; }
 
+        [Display(Name = "Sale Price")]
         public decimal SalePrice { get; set; }
 
         public string? Letters { get; set; }

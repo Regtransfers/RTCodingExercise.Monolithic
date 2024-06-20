@@ -5,8 +5,31 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Reg Transfers</h1>
+</div>
+
+<a href="/NewPlate">Add a plate</a>
+
+<div class="md-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">@Html.LabelFor(m => m.First().Registration)</th>
+            <th scope="col">@Html.LabelFor(m => m.First().PurchasePrice)</th>
+            <th scope="col">@Html.LabelFor(m => m.First().SalePrice)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var plate in Model)
+        {
+            <tr>
+                <td>@plate.Registration</td>
+                <td>@plate.PurchasePrice</td>
+                <td>@plate.SalePrice</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </div>
 
 <ul>

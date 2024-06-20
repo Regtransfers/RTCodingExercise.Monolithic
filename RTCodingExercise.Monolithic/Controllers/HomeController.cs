@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RTCodingExercise.Monolithic.Models;
 using System.Diagnostics;
+using RTCodingExercise.Monolithic.Business;
+using RTCodingExercise.Monolithic.DataAccess;
 
 namespace RTCodingExercise.Monolithic.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly IPlatesProvider _platesProvider;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, IPlatesProvider platesProvider)
         {
             _logger = logger;
-            _context = context;
+            _platesProvider = platesProvider;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var plates = await _context.Plates.ToListAsync();
+            var plates = _platesProvider.GetAll().ToList();
 
             return View(plates);
         }

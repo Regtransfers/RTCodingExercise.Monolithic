@@ -1,6 +1,7 @@
-﻿using RTCodingExercise.Monolithic.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RTCodingExercise.Monolithic.Models;
 
-namespace RTCodingExercise.Monolithic.Data
+namespace RTCodingExercise.Monolithic.DataAccess
 {
     public class ApplicationDbContext : DbContext
     {

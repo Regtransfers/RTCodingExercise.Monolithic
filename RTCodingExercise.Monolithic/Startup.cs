@@ -1,4 +1,7 @@
-﻿namespace RTCodingExercise.Monolithic
+﻿using RTCodingExercise.Monolithic.Business.Extensions;
+using RTCodingExercise.Monolithic.DataAccess;
+
+namespace RTCodingExercise.Monolithic
 {
     public class Startup
     {
@@ -25,6 +28,8 @@
             services.AddControllers();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddBusinessServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
