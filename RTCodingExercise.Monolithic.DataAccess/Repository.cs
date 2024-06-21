@@ -15,7 +15,7 @@ public class Repository<T> : IRepository<T> where T : class
         _dbSet = _dbContext.Set<T>();
     }
     
-    public virtual IEnumerable<T> Get(
+    public virtual IQueryable<T> Get(
         Expression<Func<T, bool>> filter = null,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
         string includeProperties = "")
@@ -35,11 +35,11 @@ public class Repository<T> : IRepository<T> where T : class
 
         if (orderBy != null)
         {
-            return orderBy(query).ToList();
+            return orderBy(query);
         }
         else
         {
-            return query.ToList();
+            return query;
         }
     }
 

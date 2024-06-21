@@ -1,20 +1,21 @@
-﻿using RTCodingExercise.Monolithic.DataAccess;
+﻿using RTCodingExercise.Monolithic.Common.Models;
+using RTCodingExercise.Monolithic.DataAccess;
 using RTCodingExercise.Monolithic.Models;
 
 namespace RTCodingExercise.Monolithic.Controllers;
 
-public class NewPlateController : Controller
+public class PlateController : Controller
 {
-    private readonly ILogger<NewPlateController> _logger;
+    private readonly ILogger<PlateController> _logger;
     private readonly ApplicationDbContext _context;
     
-    public NewPlateController(ILogger<NewPlateController> logger, ApplicationDbContext context)
+    public PlateController(ILogger<PlateController> logger, ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Add()
     {
         _logger.LogDebug("Test");
         return View();
@@ -28,6 +29,6 @@ public class NewPlateController : Controller
         _context.SaveChanges();
         ViewBag.Saved = true;
 
-        return View("Index", plate);
+        return View("Add", plate);
     }
 }

@@ -1,8 +1,8 @@
-﻿using RTCodingExercise.Monolithic.Models;
+﻿using RTCodingExercise.Monolithic.Common.Models;
 
 namespace RTCodingExercise.Monolithic.Business;
 
 public interface IPlatesProvider
 {
-    IEnumerable<Plate> GetAll();
+    Task<PaginatedList<Plate>> GetAllAsync(int? pageIndex = 1);
 }

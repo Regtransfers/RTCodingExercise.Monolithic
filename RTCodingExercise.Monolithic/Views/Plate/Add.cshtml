@@ -1,4 +1,4 @@
-﻿@model Plate
+﻿@model RTCodingExercise.Monolithic.Common.Models.Plate
 
 @{
     ViewBag.Title = "Add a plate";
@@ -15,7 +15,7 @@
 }
 
 <div class="col-md-6">
-    @using (Html.BeginForm("Submit", "NewPlate", FormMethod.Post))
+    @using (Html.BeginForm("Submit", "Plate", FormMethod.Post))
     {
         <div class="mb-3 mt-3">
             @Html.LabelFor(m => m.Registration)

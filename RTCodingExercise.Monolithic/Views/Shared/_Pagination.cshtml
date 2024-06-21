@@ -1,0 +1,65 @@
+﻿@model RTCodingExercise.Monolithic.Common.Models.PaginatedList<RTCodingExercise.Monolithic.Common.Models.Plate>
+
+<ul class="pagination">
+    
+    @{
+        if (Model.PageIndex != 1)
+        {
+            var firstParams = new Dictionary<string, string>
+            {
+                {"page", "1"}
+            };
+            <li class="page-item">
+                <a class="page-link" asp-all-route-data="firstParams">First</a>
+            </li>    
+        }
+        
+        if (Model.HasPreviousPage)
+        {
+            var previousParams = new Dictionary<string, string>
+            {
+                {"page", (Model.PageIndex-1).ToString()}
+            };
+            <li class="page-item">
+                <a class="page-link" asp-all-route-data="previousParams">Previous</a>
+            </li>
+        }
+    }
+    
+    @{
+        for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                {"page", i.ToString()}
+            };
+            <li class="page-item"><a class="page-link" asp-all-route-data="queryParams">@i</a></li>        
+        }
+    }
+    
+    @{
+        if (Model.HasNextPage)
+        {
+            var nextParams = new Dictionary<string, string>
+            {
+            {"page", (Model.PageIndex+1).ToString()}
+            };
+            <li class="page-item">
+                <a class="page-link" asp-all-route-data="nextParams">Next</a>
+            </li>
+        }
+    }
+    
+    @{
+        if (Model.PageIndex != Model.TotalPages)
+        {
+            var lastParams = new Dictionary<string, string>
+            {
+                {"page", Model.TotalPages.ToString()}
+            };
+            <li class="page-item">
+                <a class="page-link" asp-all-route-data="lastParams">Last</a>
+            </li>    
+        }
+    }
+</ul>

@@ -1,5 +1,5 @@
-﻿using RTCodingExercise.Monolithic.DataAccess.Interfaces;
-using RTCodingExercise.Monolithic.Models;
+﻿using RTCodingExercise.Monolithic.Common.Models;
+using RTCodingExercise.Monolithic.DataAccess.Interfaces;
 
 namespace RTCodingExercise.Monolithic.Business;
 
@@ -12,8 +12,11 @@ public class PlatesProvider : IPlatesProvider
         _plateRepository = plateRepository;
     }
 
-    public IEnumerable<Plate> GetAll()
+    public async Task<PaginatedList<Plate>> GetAllAsync(int? pageIndex = 1)
     {
-        return _plateRepository.Get();
+        var pageSize = 20;
+        var result =
+            await PaginatedList<Plate>.CreateAsync(_plateRepository.Get(), pageIndex ?? 1, pageSize);
+        return result;
     }
 }

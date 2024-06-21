@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RTCodingExercise.Monolithic.Models;
+using RTCodingExercise.Monolithic.Common.Models;
 
 namespace RTCodingExercise.Monolithic.DataAccess
 {

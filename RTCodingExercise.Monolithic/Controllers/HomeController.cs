@@ -17,9 +17,9 @@ namespace RTCodingExercise.Monolithic.Controllers
             _platesProvider = platesProvider;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var plates = _platesProvider.GetAll().ToList();
+            var plates = await _platesProvider.GetAllAsync(page);
 
             return View(plates);
         }

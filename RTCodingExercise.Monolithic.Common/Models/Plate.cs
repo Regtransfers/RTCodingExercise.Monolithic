@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RTCodingExercise.Monolithic.Models
+namespace RTCodingExercise.Monolithic.Common.Models
 {
     public class Plate
     {
@@ -17,5 +19,9 @@ namespace RTCodingExercise.Monolithic.Models
         public string? Letters { get; set; }
 
         public int Numbers { get; set; }
+        
+        [Display(Name = "Sale Price (inc Markup)")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal MarkUp { get; set; }
     }
 }

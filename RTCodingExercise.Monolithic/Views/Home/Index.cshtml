@@ -1,4 +1,4 @@
-﻿@model List<Plate>
+﻿@model RTCodingExercise.Monolithic.Common.Models.PaginatedList<RTCodingExercise.Monolithic.Common.Models.Plate>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -8,7 +8,7 @@
     <h1 class="display-4">Reg Transfers</h1>
 </div>
 
-<a href="/NewPlate">Add a plate</a>
+<a href="/Plate/Add">Add a plate</a>
 
 <div class="md-5">
     <table class="table">
@@ -16,7 +16,7 @@
         <tr>
             <th scope="col">@Html.LabelFor(m => m.First().Registration)</th>
             <th scope="col">@Html.LabelFor(m => m.First().PurchasePrice)</th>
-            <th scope="col">@Html.LabelFor(m => m.First().SalePrice)</th>
+            <th scope="col">@Html.LabelFor(m => m.First().MarkUp)</th>
         </tr>
         </thead>
         <tbody>
@@ -24,17 +24,11 @@
         {
             <tr>
                 <td>@plate.Registration</td>
-                <td>@plate.PurchasePrice</td>
-                <td>@plate.SalePrice</td>
+                <td>@plate.PurchasePrice.ToString("0.00")</td>
+                <td>@plate.MarkUp.ToString("0.00")</td>
             </tr>
         }
         </tbody>
     </table>
+    <partial name="_Pagination" />
 </div>
-
-<ul>
-    @foreach(var p in Model)
-    {
-        <li>@p.Registration</li>
-    }
-</ul>
