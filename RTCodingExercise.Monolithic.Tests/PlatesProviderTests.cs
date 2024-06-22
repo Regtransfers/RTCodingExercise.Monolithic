@@ -1,13 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
+using MockQueryable.Moq;
 using RTCodingExercise.Monolithic.Business;
 using RTCodingExercise.Monolithic.Common.Models;
-using RTCodingExercise.Monolithic.DataAccess.Interfaces;
+using RTCodingExercise.Monolithic.DataAccess;
 using Xunit;
 
 namespace RTCodingExercise.Monolithic.Tests
@@ -15,40 +15,71 @@ namespace RTCodingExercise.Monolithic.Tests
     public class PlatesProviderTests
     {
         private PlatesProvider _classInTest;
-        private Mock<IRepository<Plate>> _plateRepository;
+        private List<Plate> _plates = new List<Plate>();
 
         public PlatesProviderTests()
         {
-            _plateRepository = new Mock<IRepository<Plate>>();
-            _classInTest = new PlatesProvider(_plateRepository.Object);
+            var random = new Random();
+
+            for (int i = 0; i < 100; i++)
+            {
+                var salePrice = random.Next(1, 1000);
+                _plates.Add(new Plate
+                {
+                    Registration = Guid.NewGuid().ToString(),
+                    PurchasePrice = random.Next(1, 1000),
+                    SalePrice = salePrice,
+                    MarkUp = (decimal)(salePrice * 1.2)
+                });    
+            }
+
+            var platesMock = _plates.AsQueryable().BuildMockDbSet();
+            var platesRepository = new Repository<Plate>(platesMock.Object);
+            _classInTest = new PlatesProvider(platesRepository);
         }
 
         [Fact]
         public async Task GetAllPlates_ReturnsMarkup()
         {
-            var list = new List<Plate>
-            {
-                new Plate
-                {
-                    SalePrice = 12,
-                    MarkUp = new decimal(12 * 1.2)
-                },
-                new Plate
-                {
-                    SalePrice = 500,
-                    MarkUp = new decimal(500 * 1.2)
-                }
-            };
-            
-            _plateRepository.Setup(x => x.Get(
-                It.IsAny<Expression<Func<Plate, bool>>>(),
-                null,
-                It.IsAny<string>()))
-                .Returns(list.AsQueryable());
-            
             var actual = await _classInTest.GetAllAsync();
             
             actual.Should().AllSatisfy(plate => plate.MarkUp.Should().Be(plate.SalePrice * (decimal)1.2));
+        }
+        
+        [Theory]
+        [ClassData(typeof(PaginationTestData))]
+        public async Task GetAllPlates_ForSelectedPage_ReturnsCorrectPage(int pageIndex)
+        {
+            var actual = await _classInTest.GetAllAsync(pageIndex);
+
+            var expected = _plates.GetRange((pageIndex * PlatesProvider.PAGE_SIZE) - PlatesProvider.PAGE_SIZE, PlatesProvider.PAGE_SIZE);
+
+            actual.Should().Contain(expected);
+        }
+
+        [Fact]
+        public Task GetAllPlates_ForPageZero_ThrowsArgumentException()
+        {
+            var act = () => _classInTest.GetAllAsync(0);
+            
+            act.Should().ThrowExactlyAsync<ArgumentOutOfRangeException>().WithMessage($"pageIndex must be greater than zero");
+            return Task.CompletedTask;
+        }
+    }
+
+    public class PaginationTestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            for (var i = 1; i <= 5; i++)
+            {
+                yield return new object[] { i };
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

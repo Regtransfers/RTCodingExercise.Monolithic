@@ -14,7 +14,16 @@ public class Repository<T> : IRepository<T> where T : class
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();
     }
-    
+
+    /// <summary>
+    /// For MOQ only. Anything else should use the Repository(dbContext) constructor.
+    /// </summary>
+    /// <param name="dbSet"></param>
+    public Repository(DbSet<T> dbSet)
+    {
+        _dbSet = dbSet;
+    }
+
     public virtual IQueryable<T> Get(
         Expression<Func<T, bool>> filter = null,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,

@@ -5,6 +5,7 @@ namespace RTCodingExercise.Monolithic.Business;
 
 public class PlatesProvider : IPlatesProvider
 {
+    public const int PAGE_SIZE = 20;
     private readonly IRepository<Plate> _plateRepository;
 
     public PlatesProvider(IRepository<Plate> plateRepository)
@@ -14,9 +15,8 @@ public class PlatesProvider : IPlatesProvider
 
     public async Task<PaginatedList<Plate>> GetAllAsync(int? pageIndex = 1)
     {
-        var pageSize = 20;
         var result =
-            await PaginatedList<Plate>.CreateAsync(_plateRepository.Get(), pageIndex ?? 1, pageSize);
+            await PaginatedList<Plate>.CreateAsync(_plateRepository.Get(), pageIndex ?? 1, PAGE_SIZE);
         return result;
     }
 }

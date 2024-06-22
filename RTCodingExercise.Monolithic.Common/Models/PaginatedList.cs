@@ -22,6 +22,8 @@ public class PaginatedList<T> : List<T>
     public static async Task<PaginatedList<T>> CreateAsync(
         IQueryable<T> source, int pageIndex, int pageSize)
     {
+        if (pageIndex < 1) throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} must be greater than zero");
+        
         var count = await source.CountAsync();
         var items = await source.Skip(
                 (pageIndex - 1) * pageSize)
