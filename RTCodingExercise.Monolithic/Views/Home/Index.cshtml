@@ -1,17 +1,83 @@
-﻿@model List<Plate>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Routing
+@using RTCodingExercise.Monolithic.Utilities
+@using RTCodingExercise.Monolithic.Common
+@model RTCodingExercise.Monolithic.Common.Models.PaginatedList<RTCodingExercise.Monolithic.Common.Models.Plate>
 
 @{
     ViewData["Title"] = "Home Page";
+    var allParams = @QueryParameters.ToDictionary(Context.Request);
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Reg Transfers</h1>
 </div>
 
-<ul>
-    @foreach(var p in Model)
-    {
-        <li>@p.Registration</li>
-    }
-</ul>
+<div class="d-flex justify-content-between">
+    <div>@Html.ActionLink("Add a plate", "Add", "Plate", null, new { @class = "btn btn-primary" } )</div>
+    <div>
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+        <div class="mb-3 mt-3">
+            @Html.LabelFor(m => m.First().Registration)
+            @Html.TextBox("searchString", ViewBag.filter as string)
+            <input type="submit" class="btn btn-primary" value="Search"/>
+        </div>
+        }
+    </div>    
+</div>
+
+<div class="md-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">@Html.LabelFor(m => m.First().Registration)</th>
+            <th scope="col">@Html.LabelFor(m => m.First().PurchasePrice)</th>
+            <th scope="col">
+            @{
+                var sortParams = @QueryParameters.ToDictionary(Context.Request);
+
+                @Html.LabelFor(m => m.First().MarkUp);
+                {
+                    {
+                        sortParams.AddOrReplace("sortOrder", SortOrderEnums.Ascending.ToString());
+                        <a href="@Url.Action("Index", sortParams)"><i class="bi bi-sort-numeric-up"></i></a>
+                    }
+                    {
+                        sortParams.AddOrReplace("sortOrder", SortOrderEnums.Descending.ToString());
+                        <a href="@Url.Action("Index", sortParams)"><i class="bi bi-sort-numeric-down-alt"></i></a>
+                    }
+                }
+            }
+            </th>
+            <th scope="col">@Html.LabelFor(m => m.First().Reserved) </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        @{
+            
+            
+            foreach (var plate in Model)
+            {
+                allParams.AddOrReplace("plateId", plate.Id.ToString());
+                <tr>
+                    <td>@plate.Registration</td>
+                    <td>@plate.PurchasePrice.ToString("0.00")</td>
+                    <td>@plate.MarkUp.ToString("0.00")</td>
+                    <td>
+                        @Html.ActionLink(
+                            @plate.Reserved ? "Reserved": "Available",
+                            "ToggleReserve",
+                            "Plate",
+                            new RouteValueDictionary(allParams),
+                            new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }    
+        }
+        
+        </tbody>
+    </table>
+    <partial name="_Pagination" />
+</div>

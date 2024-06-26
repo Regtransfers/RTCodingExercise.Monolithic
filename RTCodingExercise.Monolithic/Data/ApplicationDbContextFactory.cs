@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
+using RTCodingExercise.Monolithic.DataAccess;
 
-namespace RTCodingExercise.Monolithic.Factories
+namespace RTCodingExercise.Monolithic.Data
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {

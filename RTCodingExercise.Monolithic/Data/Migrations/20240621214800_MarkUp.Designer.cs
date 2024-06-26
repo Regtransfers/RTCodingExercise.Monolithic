@@ -3,8 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RTCodingExercise.Monolithic.Common.Models;
 using RTCodingExercise.Monolithic.Data;
 using RTCodingExercise.Monolithic.DataAccess;
 
@@ -13,9 +13,10 @@ using RTCodingExercise.Monolithic.DataAccess;
 namespace RTCodingExercise.Monolithic.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240621214800_MarkUp")]
+    partial class MarkUp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +25,7 @@ namespace RTCodingExercise.Monolithic.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity(nameof(Plate), b =>
+            modelBuilder.Entity("RTCodingExercise.Monolithic.Models.Plate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +45,7 @@ namespace RTCodingExercise.Monolithic.Migrations
 
                     b.Property<decimal>("SalePrice")
                         .HasColumnType("decimal(18,2)");
-
+                    
                     b.Property<decimal>("MarkUp")
                         .HasColumnType("decimal(18,2)")
                         .ValueGeneratedOnAddOrUpdate();

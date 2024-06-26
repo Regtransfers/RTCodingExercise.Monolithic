@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RTCodingExercise.Monolithic.Data;
+using RTCodingExercise.Monolithic.DataAccess;
 
 #nullable disable
 

@@ -1,0 +1,30 @@
+﻿@model RTCodingExercise.Monolithic.Common.Models.Plate
+
+@{
+    ViewBag.Title = "Add a plate";
+    Layout = "_Layout";
+}
+
+@{
+    if (ViewBag.Saved == true)
+    {
+        <div class="alert alert-success" role="alert">
+            Plate saved successfully
+        </div>
+    }
+}
+
+<div class="col-md-6">
+    @using (Html.BeginForm("Submit", "Plate", FormMethod.Post))
+    {
+        <div class="mb-3 mt-3">
+            @Html.LabelFor(m => m.Registration)
+            @Html.TextBoxFor(m => m.Registration, new { @class="form-control", value=Model?.Registration})
+        </div>
+        <div class="mb-3 mt-3">
+            @Html.LabelFor(m => m.SalePrice)
+            @Html.TextBoxFor(m => m.SalePrice, new { @class="form-control", value=Model?.SalePrice})
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit"/>
+    }
+</div>
