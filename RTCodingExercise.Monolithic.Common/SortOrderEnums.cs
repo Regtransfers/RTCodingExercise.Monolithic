@@ -1,6 +1,6 @@
 ﻿namespace RTCodingExercise.Monolithic.Common;
 
-public enum SortingEnums
+public enum SortOrderEnums
 {
     Undefined = 0,
     Ascending = 1,

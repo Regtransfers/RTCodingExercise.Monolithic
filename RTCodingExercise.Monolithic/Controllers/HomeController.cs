@@ -2,6 +2,7 @@
 using RTCodingExercise.Monolithic.Models;
 using System.Diagnostics;
 using RTCodingExercise.Monolithic.Business;
+using RTCodingExercise.Monolithic.Common;
 using RTCodingExercise.Monolithic.DataAccess;
 
 namespace RTCodingExercise.Monolithic.Controllers
@@ -17,11 +18,30 @@ namespace RTCodingExercise.Monolithic.Controllers
             _platesProvider = platesProvider;
         }
 
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(string searchString, string filter, int? page, SortOrderEnums? sortOrder)
         {
-            var plates = await _platesProvider.GetAllAsync(page);
+            //page = ResetSearchOrApplyExistingFilter(searchString, filter) ?? page;
+            ViewBag.filter = searchString;
+            
+            var plates = await _platesProvider.GetAllAsync(searchString, page, sortOrder);
 
             return View(plates);
+        }
+
+        private int? ResetSearchOrApplyExistingFilter(string searchString, string filter)
+        {
+            int? page = null;
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = filter;
+            }
+
+            ViewBag.filter = searchString;
+            return page;
         }
 
         public IActionResult Privacy()

@@ -23,5 +23,7 @@ namespace RTCodingExercise.Monolithic.Common.Models
         [Display(Name = "Sale Price (inc Markup)")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal MarkUp { get; set; }
+        
+        public bool Reserved { get; set; }
     }
 }

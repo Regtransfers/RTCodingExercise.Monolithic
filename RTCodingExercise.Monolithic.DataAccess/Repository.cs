@@ -19,8 +19,9 @@ public class Repository<T> : IRepository<T> where T : class
     /// For MOQ only. Anything else should use the Repository(dbContext) constructor.
     /// </summary>
     /// <param name="dbSet"></param>
-    public Repository(DbSet<T> dbSet)
+    public Repository(ApplicationDbContext dbContext, DbSet<T> dbSet)
     {
+        _dbContext = dbContext;
         _dbSet = dbSet;
     }
 

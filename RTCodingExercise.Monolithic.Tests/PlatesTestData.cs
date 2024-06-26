@@ -20,12 +20,14 @@ public static class PlatesTestData
             var reg = GenerateAndDeconstructRegistration(out var letters1, out var numbers, out var letters2) + PLATE_CONSTANT;
             PlatesList.Add(new Plate
             {
+                Id = Guid.NewGuid(),
                 Registration = reg,
                 Numbers = numbers,
                 Letters = letters2 + "x",
                 PurchasePrice = random.Next(1, 1000),
                 SalePrice = salePrice,
-                MarkUp = (decimal)(salePrice * 1.2)
+                MarkUp = (decimal)(salePrice * 1.2),
+                Reserved = random.NextDouble() > 0.5
             });    
         }
     }
